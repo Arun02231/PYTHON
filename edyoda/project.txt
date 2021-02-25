@@ -1,0 +1,97 @@
+class Book_Ticket:
+    def __init__(self):
+        self.rows=int(input('Please enter no of rows:'))
+        self.cols=int(input('Please enter no of cols:'))
+        self.row=[]
+        for i in range(self.rows):
+            self.seats=[]
+            for j in range(self.cols):
+                self.seats.append('S')
+            self.row.append(self.seats)
+        self.details={}
+        
+        
+    def show_seats(self):
+        for i in self.row:
+            for j in i:
+                print(j,end=' ')
+            print( )
+    def buy_ticket(self):
+        try:
+            self.r=int(input('please select the row:'))
+            self.c=int(input('please select the seat:'))
+            if (self.r-1,self.c-1) in self.details:
+                print('Hey seat has already booked!, kindly choose another seat')
+            else:
+                self.name=input('Please enter your name')
+                self.age=int(input('Please enter your age'))
+                self.geneder=input('plase select your gender Male/Female/Other')
+                while self.geneder not in ['Male','Female','Other']:
+                    print('Choose correct gender!')
+                    self.geneder=input('plase select your gender Male/Female/Other')
+                    continue   
+                self.phone=int(input('Please enter your phone number'))
+                self.last=input('Confirm to Book seat Yes/No:')
+                if self.last=='Yes':
+                    self.row[self.r-1][self.c-1]='B'
+                    for m in self.row:
+                        for n in m:
+                            print(n,end=' ')
+                        print()
+                elif self.last=='No':
+                    pass
+                self.details[(self.r,self.c)]=[self.name,self.age,self.geneder,self.phone]
+                
+        except IndexError:
+            print('please choose the seat with in the range',self.r,self.c)
+    def statistics(self):
+        self.total=0
+        for i in range(len(self.row)):
+                j=self.row[i].count('B')
+                self.total+=j
+        print('Total no of seats are booked is:',self.total)
+        self.total_tickets=0
+        for i in self.row:
+            for j in i:
+                self.total_tickets+=1
+        self.percentage=(self.total/self.total_tickets)*100
+        print('Booking percentage is:',self.percentage)
+        self.current_income=(self.total*10)
+        print('Current income is:',self.current_income,'$')
+    def get_details(self):
+        self.u=tuple(map(int,input().split(' ')))
+        return self.details[self.u]
+        
+        
+                
+
+
+
+
+b=Book_Ticket()
+while True:
+    print('*****************************************')
+    print('1. Show the seats')
+    print('2. Buy a tickets')
+    print('3. Statistics')
+    print('4. Show booked Tickets User Info')
+    print('0. Exit')
+    print('*****************************************')
+    choice=int(input('Please select your choice from above:'))
+    if choice==0:
+        break
+    if choice==1:
+        b.show_seats()
+    elif choice==2:
+        b.buy_ticket()
+    elif choice==3:
+        b.statistics()
+    elif choice==4:
+        a=b.get_details()
+        print('name:',a[0])
+        print('age:',a[1])
+        print('Gender:',a[2])
+        print('phone-number:',a[3])           
+        
+        
+    
