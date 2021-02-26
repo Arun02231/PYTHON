@@ -1,0 +1,144 @@
+total_income=[]
+class Book_Ticket:
+    def __init__(self):
+        self.rows=int(input('Please enter no of rows:'))
+        self.cols=int(input('Please enter no of cols:'))
+        self.row=[]
+        for i in range(self.rows):
+            self.seats=[]
+            for j in range(self.cols):
+                self.seats.append('S')
+            self.row.append(self.seats)
+        self.details={}
+        self.total_tickets=0
+        for i in self.row:
+            for j in i:
+                self.total_tickets+=1
+        self.current_income=0
+        global total_income
+    def show_seats(self):
+        print('Seats:')
+        for i in self.row:
+            for j in i:
+                print(j,end=' ')
+            print( )
+    def buy_ticket(self):
+        self.r=int(input('please select the row:'))
+        self.c=int(input('please select the seat:'))
+        while (self.r,self.c)>(self.rows,self.cols):
+            print('please chosse the seats with in the range of',self.rows,self.cols)
+            self.r=int(input('please select the row:'))
+            self.c=int(input('please select the seat:'))
+            continue
+        if (self.r,self.c) in self.details:
+            print('Hey seat has already booked!, kindly choose another seat!')
+        else:
+            self.name=input('Please enter your name:')
+            self.age=int(input('Please enter your age:'))
+            self.geneder=input('plase select your gender Male/Female/Other:')
+            while self.geneder not in ['Male','Female','Other']:
+                print('Choose correct gender!')
+                self.geneder=input('plase select your gender Male/Female/Other:')
+                continue   
+            self.phone=int(input('Please enter your phone number:'))
+            self.last=input('Confirm to Book seat Yes/No:')
+            if self.last=='Yes':  
+                if self.total_tickets<=60:
+                    self.opinion=input('You ticket price is 10 $, if you want to continue type Yes/No:')
+                    if self.opinion=='Yes':
+                        self.current_income=self.current_income+10
+                        total_income.append(10)
+                        self.row[self.r-1][self.c-1]='B'
+                        self.details[(self.r,self.c)]=[self.name,self.age,self.geneder,self.phone]
+                    else:
+                        pass
+                else:
+                    if self.rows%2==0:
+                        if self.r<(self.rows/2):
+                            self.opinion=input('You ticket price is 10 $, if you want to continue type Yes/No:')
+                            if self.opinion=='Yes':
+                                self.current_income=self.current_income+10
+                                total_income.append(10)
+                                self.row[self.r-1][self.c-1]='B'
+                                self.details[(self.r,self.c)]=[self.name,self.age,self.geneder,self.phone]
+                            else:
+                                pass
+                        else:
+                            self.opinion=input('You ticket price is 8 $, if you want to continue type Yes/No:')
+                            if self.opinion=='Yes':
+                                self.current_income=self.current_income+8
+                                total_income.append(8)
+                                self.row[self.r-1][self.c-1]='B'
+                                self.details[(self.r,self.c)]=[self.name,self.age,self.geneder,self.phone]
+                            else:
+                                pass
+                    else:
+                        if self.r<=((self.rows//2)):
+                            self.opinion=input('You ticket price is 10 $, if you want to continue type Yes/No:')
+                            if self.opinion=='Yes':
+                                self.current_income=self.current_income+10
+                                total_income.append(10)
+                                self.row[self.r-1][self.c-1]='B'
+                                self.details[(self.r,self.c)]=[self.name,self.age,self.geneder,self.phone]
+                            else:
+                                pass
+                        else:
+                            self.opinion=input('You ticket price is 8 $, if you want to continue type Yes/No:')
+                            if self.opinion=='Yes':
+                                self.current_income=self.current_income+8
+                                total_income.append(8)
+                                self.row[self.r-1][self.c-1]='B'
+                                self.details[(self.r,self.c)]=[self.name,self.age,self.geneder,self.phone]
+                            else:
+                                pass
+                for m in self.row:
+                    for n in m:
+                        print(n,end=' ')
+                    print()
+            elif self.last=='No':
+                        pass                               
+#         except IndexError:
+#             print('please choose the seat with in the range',self.rows,self.cols)
+    def statistics(self):
+        self.total=0
+        for i in range(len(self.row)):
+            j=self.row[i].count('B')
+            self.total+=j
+        print('Total no of seats are booked is:',self.total)
+        self.percentage=(self.total/self.total_tickets)*100
+        print('Booking percentage is:',self.percentage)
+        print('Current income is:',self.current_income,'$')
+        print('Total income is:',sum(total_income),'$')
+    def get_details(self):
+        try:
+            self.rr=int(input('Please enter a row no you want:'))
+            self.ss=int(input('Please eneter a seat no u want:'))
+            self.u=(self.rr,self.ss)
+            self.a=self.details[self.u]
+            print('name:',self.a[0])
+            print('age:',self.a[1])
+            print('Gender:',self.a[2])
+            print('phone-number:',self.a[3])
+        except KeyError:
+            print("we don't have that seat or please book the tickets")
+
+b=Book_Ticket()
+while True:
+    print('*****************************************')
+    print('1. Show the seats')
+    print('2. Buy a tickets')
+    print('3. Statistics')
+    print('4. Show booked Tickets User Info')
+    print('0. Exit')
+    print('*****************************************')
+    choice=int(input('Please select your choice from above:'))
+    if choice==0:
+        break
+    if choice==1:
+        b.show_seats()
+    elif choice==2:
+        b.buy_ticket()
+    elif choice==3:
+        b.statistics()
+    elif choice==4:
+        b.get_details()
